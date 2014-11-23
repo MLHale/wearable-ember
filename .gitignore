@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/cordova/www
 
 # dependencies
 /node_modules
