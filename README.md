@@ -8,6 +8,7 @@ You will need the following things properly installed on your computer.
 
 * [Git](http://git-scm.com/)
 * [Node.js](http://nodejs.org/) (with NPM) and [Bower](http://bower.io/)
+* [cordova](https://github.com/apache/cordova-js)
 
 ## Installation
 
@@ -44,6 +45,7 @@ Run 'ember build' then move the dist/ directory to your cordova build directory.
 
 * ember: http://emberjs.com/
 * ember-cli: http://www.ember-cli.com/
+* ember-cli-cordova: https://github.com/poetic/ember-cli-cordova
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
