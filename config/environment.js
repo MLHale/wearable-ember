@@ -18,25 +18,25 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    cordova: {
-      rebuildOnChange: true,
-      emulate: true,
-      platform: 'android',
-      emberUrl: 'http://10.0.1.12:4200',
-      liveReload: {
-        enabled: true,
-        platform: 'android'
-      }
-    },
+    // cordova: {
+    //   rebuildOnChange: false,
+    //   emulate: false,
+    //   platform: 'android',
+    //   emberUrl: 'http://10.0.1.12:4200',
+    //   liveReload: {
+    //     enabled: true,
+    //     platform: 'android'
+    //   }
+    // },
     contentSecurityPolicy: {
-    'default-src': "'self'",
-    'script-src': "'self' 'unsafe-eval'",
-    'font-src': "'self'",
-    'connect-src': "'self'",
-    'img-src': "'self' data: *.openstreetmap.org",
-    'style-src': "'self' 'unsafe-inline'",
-    'media-src': "'self'"
-  }
+      'default-src': "'self'",
+      'script-src': "'self' 'unsafe-eval'",
+      'font-src': "'self'",
+      'connect-src': "'self' liveReloadPort",
+      'img-src': "'self' data: *.openstreetmap.org",
+      'style-src': "'self' 'unsafe-inline'",
+      'media-src': "'self'"
+    }
   };
 
   if (environment === 'development') {
