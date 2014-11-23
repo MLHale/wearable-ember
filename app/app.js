@@ -13,4 +13,6 @@ var App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+App.metawearReady = false;
+
 export default App;

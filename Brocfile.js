@@ -2,6 +2,9 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+var pickFiles = require('ember-cli/lib/broccoli/custom-static-compiler');
+var vendor = pickFiles('vendor', {srcDir: '/', destDir: '/vendor'});
+
 var app = new EmberApp();
 
 // Use `app.import` to add additional libraries to the generated

@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'wearable-ember',
     environment: environment,
     baseURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -16,7 +16,27 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    cordova: {
+      rebuildOnChange: true,
+      emulate: true,
+      platform: 'android',
+      emberUrl: 'http://10.0.1.12:4200',
+      liveReload: {
+        enabled: true,
+        platform: 'android'
+      }
+    },
+    contentSecurityPolicy: {
+    'default-src': "'self'",
+    'script-src': "'self' 'unsafe-eval'",
+    'font-src': "'self'",
+    'connect-src': "'self'",
+    'img-src': "'self' data: *.openstreetmap.org",
+    'style-src': "'self' 'unsafe-inline'",
+    'media-src': "'self'"
+  }
   };
 
   if (environment === 'development') {
@@ -42,6 +62,5 @@ module.exports = function(environment) {
   if (environment === 'production') {
 
   }
-
   return ENV;
 };

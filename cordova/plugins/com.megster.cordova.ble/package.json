@@ -1,0 +1,18 @@
+{
+    "version": "0.0.2",
+    "name": "com.megster.cordova.ble",
+    "cordova_name": "BLE",
+    "description": "Bluetooth Low Energy (BLE) Central Plugin",
+    "license": "Apache 2.0",
+    "keywords": [
+        "bluetooth",
+        " BLE",
+        " bluetooth low energy"
+    ],
+    "engines": [
+        {
+            "name": "cordova",
+            "version": ">=3.1.0"
+        }
+    ]
+}

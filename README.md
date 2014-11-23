@@ -1,8 +1,6 @@
 # Wearable-ember
 
-This README outlines the details of collaborating on this Ember application.
-
-A short introduction of this app could easily go here.
+This is a demonstration app for integrating an ember-based-cli application with Apache Cordova, and Metawear.
 
 ## Prerequisites
 
@@ -13,7 +11,7 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone https://github.com/MLHale/wearable-ember' this repository
 * change into the new directory
 * `npm install`
 * `bower install`
@@ -22,6 +20,7 @@ You will need the following things properly installed on your computer.
 
 * `ember server`
 * Visit your app at http://localhost:4200.
+* You may want to build the app into the android SDK simulator or something like ripple
 
 ### Code Generators
 
@@ -39,7 +38,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+Run 'ember build' then move the dist/ directory to your cordova build directory.
 
 ## Further Reading / Useful Links
 
