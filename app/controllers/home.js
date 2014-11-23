@@ -110,7 +110,6 @@ export default Ember.Controller.extend({
             //else {
             //    console.log('Metawear initialization has not succeeded')
             //}
-        },
-        
+        }
     }
 });

@@ -1,5 +1,17 @@
 /* jshint node: true */
 
+var os     = require('os');
+var ifaces = os.networkInterfaces();
+
+var addresses = [];
+for (var dev in ifaces) {
+  ifaces[dev].forEach(function(details){
+    if(details.family === 'IPv4' && details.address !== '127.0.0.1') {
+      addresses.push(details.address);
+    }
+  });
+}
+
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'wearable-ember',
@@ -18,24 +30,14 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    // cordova: {
-    //   rebuildOnChange: false,
-    //   emulate: false,
-    //   platform: 'android',
-    //   emberUrl: 'http://10.0.1.12:4200',
-    //   liveReload: {
-    //     enabled: true,
-    //     platform: 'android'
-    //   }
-    // },
-    contentSecurityPolicy: {
-      'default-src': "'self'",
-      'script-src': "'self' 'unsafe-eval'",
-      'font-src': "'self'",
-      'connect-src': "'self' liveReloadPort",
-      'img-src': "'self' data: *.openstreetmap.org",
-      'style-src': "'self' 'unsafe-inline'",
-      'media-src': "'self'"
+    cordova: {
+      rebuildOnChange: false,
+      emulate: false,
+      emberUrl: 'http://' + addresses[0] + ':4200',
+      liveReload: {
+        enabled: false,
+        platform: 'ios'
+      }
     }
   };
 
@@ -45,6 +47,9 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    ENV.apiUrl   = 'http://' + addresses[0] + ':3000/api/v1';
+    ENV.development = true;
   }
 
   if (environment === 'test') {
@@ -59,8 +64,16 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
-  if (environment === 'production') {
-
+  if (environment === 'staging') {
+    ENV.apiUrl = 'http://wearable-ember-staging.herokuapp.com/api/v1';
+    ENV.staging = true;
   }
+
+
+  if (environment === 'production') {
+    ENV.apiUrl = 'http://wearable-ember.herokuapp.com/api/v1';
+    ENV.production = true;
+  }
+
   return ENV;
 };
