@@ -21,7 +21,10 @@ You will need the following things properly installed on your computer.
 
 * `ember server`
 * Visit your app at http://localhost:4200.
-* You may want to build the app into the android SDK simulator or something like ripple
+* To run on your device:
+** Pair the device via usb
+** ember cordova:build --platform android
+** ember cordova run
 
 ### Code Generators
 
