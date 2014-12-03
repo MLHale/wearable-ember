@@ -16,6 +16,7 @@ You will need the following things properly installed on your computer.
 * change into the new directory
 * `npm install`
 * `bower install`
+* `npm install -g cordova`
 
 ## Running / Development
 
@@ -26,26 +27,17 @@ To run in the browser
 
 To run on your device:
 * Pair the device via usb
-* ember cordova:build --platform android
-* ember cordova run
+* `ember cordova:build --platform android`
+* `ember cordova run`
 
 ### Code Generators
 
 Make use of the many generators for code, try `ember help generate` for more details
 
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
 ### Deploying
 
-Run 'ember build' then move the dist/ directory to your cordova build directory.
+(for web) Run `ember build` then move the dist/ directory to your cordova build directory.
+(for device) Run `ember cordova:build --platform android` then move /cordova/platforms/android/[filename].apk to your device.
 
 ## Further Reading / Useful Links
 
