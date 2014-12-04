@@ -28,7 +28,7 @@ To run in the browser
 To run on your device:
 * Pair the device via usb
 * `ember cordova:build --platform android`
-* `ember cordova run`
+* `ember cordova run --platform android`
 
 ### Code Generators
 
@@ -36,8 +36,8 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-(for web) Run `ember build` then move the dist/ directory to your cordova build directory.
-(for device) Run `ember cordova:build --platform android` then move /cordova/platforms/android/[filename].apk to your device.
+*(for web) Run `ember build` then move the dist/ directory to your cordova build directory.
+*(for device) Run `ember cordova:build --platform android` then move /cordova/platforms/android/[filename].apk to your device.
 
 ## Further Reading / Useful Links
 

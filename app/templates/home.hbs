@@ -12,8 +12,6 @@
                             {{else}}
                                 <button type="button" class="btn btn-danger" {{action 'metawear_disconnect'}}>Disconnect</button>
                             {{/unless}}
-                            
-                            
                         </p>
                     </div>
                 </div>
@@ -42,11 +40,11 @@
                             Acceleration z: {{a_z}}<br>
                             Acceleration timestamp: {{a_t}}<br>
                         </p>
-                        
+                        {{c3-chart size=chartSize data=dataset}}
+                        <button type="button" class="btn btn-success" {{action 'accelerometer_poll'}}>Add Random Test Point</button><br>
                     </div>
                 </div>
             </div>
-            
             <div class="mastfoot">
                 <div class="inner">
                     <p>Copyright &copy; Matt Hale 2014</p>
