@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
         type: 'line'
     },
     chartSize: {
-        width: 400,
+        width: 350,
     },
     init: function () {
         var t = this;
