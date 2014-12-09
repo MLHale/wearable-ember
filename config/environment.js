@@ -1,5 +1,4 @@
 /* jshint node: true */
-
 var os     = require('os');
 var ifaces = os.networkInterfaces();
 
@@ -29,7 +28,6 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
-
     cordova: {
       rebuildOnChange: false,
       emulate: false,
@@ -38,6 +36,15 @@ module.exports = function(environment) {
         enabled: false,
         platform: 'ios'
       }
+    },
+    contentSecurityPolicy: {
+      'default-src': "'self' http://hybridapp.mlhale.com",
+      'script-src': "'self' 'unsafe-eval' ", // Allow scripts from https://cdn.mxpnl.com
+      'font-src': "'self' http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
+      'connect-src': "'self' http://hybridapp.mlhale.com", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
+      'img-src': "'self'",
+      'style-src': "'self' 'unsafe-inline' 'unsafe-eval' ", // Allow inline styles and loaded CSS from http://fonts.googleapis.com 
+      'media-src': "'self'"
     }
   };
 
@@ -55,7 +62,7 @@ module.exports = function(environment) {
   if (environment === 'test') {
     // Testem prefers this...
     ENV.baseURL = '/';
-    ENV.locationType = 'auto';
+    ENV.locationType = 'none';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -64,15 +71,8 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
-  if (environment === 'staging') {
-    ENV.apiUrl = 'http://wearable-ember-staging.herokuapp.com/api/v1';
-    ENV.staging = true;
-  }
-
-
   if (environment === 'production') {
-    ENV.apiUrl = 'http://wearable-ember.herokuapp.com/api/v1';
-    ENV.production = true;
+
   }
 
   return ENV;
