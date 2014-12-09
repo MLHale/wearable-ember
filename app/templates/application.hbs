@@ -1,5 +1,11 @@
-{{partial "nav"}}
-
-{{liquid-outlet name="main"}}
-
-{{liquid-outlet modal}}
+{{render "nav"}}
+<div class="container">
+	{{liquid-outlet name="main"}}
+	<div class="mastfoot">
+			<div class="inner">
+				<p>Copyright &copy; Matt Hale 2014</p>
+			</div>
+		</div>
+	</div>
+	{{liquid-outlet modal}}
+</div>
