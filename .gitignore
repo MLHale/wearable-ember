@@ -24,7 +24,7 @@ cordova/platforms/ios/www/
 cordova/platforms/ios/cordova/console.log
 *.xcuserdatad
 
-cordova/platforms/android/*
+cordova/platforms/*
 
 # wp8
 cordova/platforms/wp8/bin
