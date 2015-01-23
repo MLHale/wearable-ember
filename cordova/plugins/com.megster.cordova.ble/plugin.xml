@@ -3,7 +3,7 @@
     xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.megster.cordova.ble"
-    version="0.0.2">
+    version="0.1.2">
 
     <name>BLE</name>
     <description>Bluetooth Low Energy (BLE) Central Plugin</description>
@@ -61,6 +61,10 @@
         <source-file src="src/android/BLECommand.java"
             target-dir="src/com/megster/cordova/ble/central"/>
         <source-file src="src/android/Peripheral.java"
+            target-dir="src/com/megster/cordova/ble/central"/>
+        <source-file src="src/android/Helper.java"
+            target-dir="src/com/megster/cordova/ble/central"/>
+        <source-file src="src/android/UUIDHelper.java"
             target-dir="src/com/megster/cordova/ble/central"/>
 
     </platform>

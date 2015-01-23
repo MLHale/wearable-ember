@@ -17,6 +17,7 @@ package com.megster.cordova.ble.central;
 import android.app.Activity;
 
 import android.bluetooth.*;
+import android.util.Base64;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
@@ -33,7 +34,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Peripheral extends BluetoothGattCallback {
 
     // 0x2902 org.bluetooth.descriptor.gatt.client_characteristic_configuration.xml
-    public final static UUID CLIENT_CHARACTERISTIC_CONFIGURATION_UUID = UUID.fromString("00002902-0000-1000-8000-00805F9B34FB");
+    //public final static UUID CLIENT_CHARACTERISTIC_CONFIGURATION_UUID = UUID.fromString("00002902-0000-1000-8000-00805F9B34FB");
+    public final static UUID CLIENT_CHARACTERISTIC_CONFIGURATION_UUID = UUIDHelper.uuidFromString("2902");
     private static final String TAG = "Peripheral";
 
     private BluetoothDevice device;
@@ -95,12 +97,67 @@ public class Peripheral extends BluetoothGattCallback {
         return json;
     }
 
-    static JSONArray byteArrayToJSON(byte[] bytes) {
-        JSONArray json = new JSONArray();
-        for (byte aByte : bytes) {
-            json.put(aByte);
+    public JSONObject asJSONObject(BluetoothGatt gatt) {
+
+        JSONObject json = asJSONObject();
+
+        try {
+            JSONArray servicesArray = new JSONArray();
+            JSONArray characteristicsArray = new JSONArray();
+            json.put("services", servicesArray);
+            json.put("characteristics", characteristicsArray);
+
+            if (connected && gatt != null) {
+                for (BluetoothGattService service : gatt.getServices()) {
+                    servicesArray.put(UUIDHelper.uuidToString(service.getUuid()));
+
+                    for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
+                        JSONObject characteristicsJSON = new JSONObject();
+                        characteristicsArray.put(characteristicsJSON);
+
+                        characteristicsJSON.put("service", UUIDHelper.uuidToString(service.getUuid()));
+                        characteristicsJSON.put("characteristic", UUIDHelper.uuidToString(characteristic.getUuid()));
+                        //characteristicsJSON.put("instanceId", characteristic.getInstanceId());
+
+                        characteristicsJSON.put("properties", Helper.decodeProperties(characteristic));
+                            // characteristicsJSON.put("propertiesValue", characteristic.getProperties());
+
+                        if (characteristic.getPermissions() > 0) {
+                            characteristicsJSON.put("permissions", Helper.decodePermissions(characteristic));
+                            // characteristicsJSON.put("permissionsValue", characteristic.getPermissions());
+                        }
+
+                        JSONArray descriptorsArray = new JSONArray();
+
+                        for (BluetoothGattDescriptor descriptor: characteristic.getDescriptors()) {
+                            JSONObject descriptorJSON = new JSONObject();
+                            descriptorJSON.put("uuid", UUIDHelper.uuidToString(descriptor.getUuid()));
+                            descriptorJSON.put("value", descriptor.getValue()); // always blank
+
+                            if (descriptor.getPermissions() > 0) {
+                                descriptorJSON.put("permissions", Helper.decodePermissions(descriptor));
+                                // descriptorJSON.put("permissionsValue", descriptor.getPermissions());
+                            }
+                            descriptorsArray.put(descriptorJSON);
+                        }
+                        if (descriptorsArray.length() > 0) {
+                            characteristicsJSON.put("descriptors", descriptorsArray);
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) { // TODO better error handling
+            e.printStackTrace();
         }
+
         return json;
+    }
+
+    static JSONObject byteArrayToJSON(byte[] bytes) throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("CDVType", "ArrayBuffer");
+        object.put("data", Base64.encodeToString(bytes, Base64.NO_WRAP));
+        return object;
     }
 
     public boolean isConnected() {
@@ -116,7 +173,7 @@ public class Peripheral extends BluetoothGattCallback {
         super.onServicesDiscovered(gatt, status);
 
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            PluginResult result = new PluginResult(PluginResult.Status.OK);
+            PluginResult result = new PluginResult(PluginResult.Status.OK, this.asJSONObject(gatt));
             result.setKeepCallback(true);
             connectCallback.sendPluginResult(result);
         } else {

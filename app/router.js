@@ -7,6 +7,7 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
 	this.resource('home', { path: '/' });
+  	this.resource('metawear');
 });
 
 export default Router;

@@ -15,10 +15,46 @@
 /* global cordova, module */
 "use strict";
 
+var stringToArrayBuffer = function(str) {
+    var ret = new Uint8Array(str.length);
+    for (var i = 0; i < str.length; i++) {
+        ret[i] = str.charCodeAt(i);
+    }
+    // TODO would it be better to return Uint8Array?
+    return ret.buffer;
+};
+
+var base64ToArrayBuffer = function(b64) {
+    return stringToArrayBuffer(atob(b64));
+};
+
+function massageMessageNativeToJs(message) {
+    if (message.CDVType == 'ArrayBuffer') {
+        message = base64ToArrayBuffer(message.data);
+    }
+    return message;
+}
+
+// Cordova 3.6 doesn't unwrap ArrayBuffers in nested data structures
+// https://github.com/apache/cordova-js/blob/94291706945c42fd47fa632ed30f5eb811080e95/src/ios/exec.js#L107-L122
+function convertToNativeJS(object) {
+    Object.keys(object).forEach(function (key) {
+        var value = object[key];
+        object[key] = massageMessageNativeToJs(value);
+        if (typeof(value) === 'object') {
+            convertToNativeJS(value);
+        }
+    });
+}
+
 module.exports = {
 
     scan: function (services, seconds, success, failure) {
-        cordova.exec(success, failure, 'BLE', 'scan', [services, seconds]);
+        var successWrapper = function(peripheral) {
+            convertToNativeJS(peripheral);
+            success(peripheral);
+        };
+        cordova.exec(successWrapper, failure, 'BLE', 'scan', [services, seconds]);
     },
 
     // this will probably be removed
@@ -27,7 +63,11 @@ module.exports = {
     },
 
     connect: function (device_id, success, failure) {
-        cordova.exec(success, failure, 'BLE', 'connect', [device_id]);
+        var successWrapper = function(peripheral) {
+            convertToNativeJS(peripheral);
+            success(peripheral);
+        };
+        cordova.exec(successWrapper, failure, 'BLE', 'connect', [device_id]);
     },
 
     disconnect: function (device_id, success, failure) {
@@ -45,13 +85,30 @@ module.exports = {
     },
 
     // value must be an ArrayBuffer
+    writeWithoutResponse: function (device_id, service_uuid, characteristic_uuid, value, success, failure) {
+        cordova.exec(success, failure, 'BLE', 'writeWithoutResponse', [device_id, service_uuid, characteristic_uuid, value]);
+    },
+
+    // value must be an ArrayBuffer
     writeCommand: function (device_id, service_uuid, characteristic_uuid, value, success, failure) {
-        cordova.exec(success, failure, 'BLE', 'writeCommand', [device_id, service_uuid, characteristic_uuid, value]);
+        console.log("WARNING: writeCommand is deprecated, use writeWithoutResponse");
+        cordova.exec(success, failure, 'BLE', 'writeWithoutResponse', [device_id, service_uuid, characteristic_uuid, value]);
     },
 
     // success callback is called on notification
     notify: function (device_id, service_uuid, characteristic_uuid, success, failure) {
-        cordova.exec(success, failure, 'BLE', 'notify', [device_id, service_uuid, characteristic_uuid]);
+        console.log("WARNING: notify is deprecated, use startNotification");
+        cordova.exec(success, failure, 'BLE', 'startNotification', [device_id, service_uuid, characteristic_uuid]);
+    },
+
+    // success callback is called on notification
+    startNotification: function (device_id, service_uuid, characteristic_uuid, success, failure) {
+        cordova.exec(success, failure, 'BLE', 'startNotification', [device_id, service_uuid, characteristic_uuid]);
+    },
+
+    // success callback is called when characteristic 0x2902 is written
+    stopNotification: function (device_id, service_uuid, characteristic_uuid, success, failure) {
+        cordova.exec(success, failure, 'BLE', 'stopNotification', [device_id, service_uuid, characteristic_uuid]);
     },
 
     // success callback is called on indication.

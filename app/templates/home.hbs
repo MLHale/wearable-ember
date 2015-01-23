@@ -1,29 +1,6 @@
 <div class="row">
-			<h2>Metawear Device Information</h2>
-			<p>
-				<h4>Device Connection</h4>
-				{{#unless metawearConnected}}
-					<button type="button" class="btn btn-success" {{action 'metawear_connect'}}>Connect</button>
-				{{else}}
-					<button type="button" class="btn btn-danger" {{action 'metawear_disconnect'}}>Disconnect</button>
-				{{/unless}}
-			</p>
-</div>
-{{#if metawearConnected}}
-	<div class="row">
-		<div class="col s12">
-			<h2>Metawear LED Control</h2>
-			<p>
-				<button type="button" class="btn btn-success" {{action 'metawear_turnOnLED'}}>Turn on LED </button>
-				<button type="button" class="btn btn-danger" {{action 'metawear_turnOffLED'}}>Turn off LED </button>
-			</p>
-		</div>
-	</div>
-{{/if}}
-
-<div class="row">
 	<div class="col s12">
-		<h2>Phone Accelerometer (500ms polling)</h2>
-		{{c3-chart size=chartSize data=dataset}}
+		<h4 align="center">Phone Accelerometer <br>(500ms polling)</h4>
+		{{c3-graph size=chartSize data=dataset interaction=interaction transition=transition axis=axis updateflag=update}}
 	</div>
 </div>

@@ -1,0 +1,21 @@
+<div class="row">
+	<div class="col s12">
+		<h4>Device Connection</h4>
+		{{#unless metawearConnected}}
+			<button type="button" class="btn" {{action 'metawear_connect'}}>Connect</button>
+		{{else}}
+			<button type="button" class="btn red" {{action 'metawear_disconnect'}}>Disconnect</button>
+		{{/unless}}
+	</div>
+</div>
+{{#if metawearConnected}}
+	<div class="row">
+		<div class="col s12">
+			<h4>Metawear LED Control</h4>
+			<button type="button" class="btn red btn-small" {{action 'metawear_turnOnLED_red'}}>Red </button>
+			<button type="button" class="btn btn-small" {{action 'metawear_turnOnLED_blue'}}>Blue </button>
+			<button type="button" class="btn green btn-small" {{action 'metawear_turnOnLED_green'}}>Green </button><br>
+			<button type="button" class="btn red btn-small" {{action 'metawear_turnOffLED'}}>Turn off LEDs </button>
+		</div>
+	</div>
+{{/if}}

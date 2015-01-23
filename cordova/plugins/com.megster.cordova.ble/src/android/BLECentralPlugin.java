@@ -34,8 +34,6 @@ import java.util.*;
 
 public class BLECentralPlugin extends CordovaPlugin implements BluetoothAdapter.LeScanCallback {
 
-    public static final String UUID_BASE = "0000XXXX-0000-1000-8000-00805f9b34fb";
-
     // actions
     private static final String SCAN = "scan";
     private static final String LIST = "list";
@@ -45,9 +43,9 @@ public class BLECentralPlugin extends CordovaPlugin implements BluetoothAdapter.
 
     private static final String READ = "read";
     private static final String WRITE = "write";
-    private static final String WRITE_COMMAND = "writeCommand";
+    private static final String WRITE_WITHOUT_RESPONSE = "writeWithoutResponse";
 
-    private static final String NOTIFY = "notify"; // register notify
+    private static final String NOTIFY = "startNotification"; // register for characteristic notification
     // TODO future private static final String INDICATE = "indicate"; // register indication
 
     private static final String IS_ENABLED = "isEnabled";
@@ -112,7 +110,7 @@ public class BLECentralPlugin extends CordovaPlugin implements BluetoothAdapter.
             int type = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;
             write(callbackContext, macAddress, serviceUUID, characteristicUUID, data, type);
 
-        } else if (action.equals(WRITE_COMMAND)) {
+        } else if (action.equals(WRITE_WITHOUT_RESPONSE)) {
 
             String macAddress = args.getString(0);
             UUID serviceUUID = uuidFromString(args.getString(1));
@@ -245,7 +243,14 @@ public class BLECentralPlugin extends CordovaPlugin implements BluetoothAdapter.
     private void findLowEnergyDevices(CallbackContext callbackContext, UUID[] serviceUUIDs, int scanSeconds) {
 
         // TODO skip if currently scanning
-        peripherals.clear();  // TODO: don't discard connected peripherals
+
+        // clear non-connected cached peripherals
+        for(Iterator<Map.Entry<String, Peripheral>> iterator = peripherals.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry<String, Peripheral> entry = iterator.next();
+            if(!entry.getValue().isConnected()) {
+                iterator.remove();
+            }
+        }
 
         discoverCallback = callbackContext;
 
@@ -305,13 +310,8 @@ public class BLECentralPlugin extends CordovaPlugin implements BluetoothAdapter.
 
     }
 
-    // handle 16 and 128 bit UUIDs
-    public static UUID uuidFromString(String uuid) {
-
-        if (uuid.length() == 4) {
-            uuid = UUID_BASE.replace("XXXX", uuid);
-        }
-        return UUID.fromString(uuid);
+    private UUID uuidFromString(String uuid) {
+        return UUIDHelper.uuidFromString(uuid);
     }
 
 }

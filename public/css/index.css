@@ -8,3 +8,11 @@
     width: 800px; 
     height: 200px;"
 }
+
+.btn-small {
+	padding: 0 1rem !important;
+}
+
+.btn-center {
+	margin-left: 40% !important;
+}

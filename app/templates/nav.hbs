@@ -1,12 +1,11 @@
 <nav class="grey darken-4">
-	<div class="container">
-		<div class="nav-wrapper">
-			<!--<a class="waves-effect button flat" {{action 'back'}} style="z-index:1;"><i class="mdi-navigation-arrow-back" style="font-size:30px;"></i></a>-->
-			<a href="#" class="brand-logo right">Metawear testing</a>
-			<ul id="nav-mobile" class="left side-nav">
-				<li>{{#link-to 'home' tagName='a'}}<i class="mdi-action-home left"></i>{{/link-to}}</li>
-			</ul>
-			<a class="button-collapse" href="#" style="float:right;" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
-		</div>
+	<div class="nav-wrapper">
+		<!--<a class="waves-effect button flat" {{action 'back'}} style="z-index:1;"><i class="mdi-navigation-arrow-back" style="font-size:30px;"></i></a>-->
+		<a href="#" class="brand-logo right">Metawear testing</a>
+		<ul id="slide-out" class="side-nav full">
+			<li>{{#link-to 'home' tagName='a'}}Accelerometer{{/link-to}}</li>
+			<li>{{#link-to 'metawear' tagName='a'}}Metawear{{/link-to}}</li>
+		</ul>
+		<a class="button-collapse" href="#" style="float:right; margin-right:20px;" data-activates="slide-out"><i class="mdi-navigation-menu"></i></a>
 	</div>
 </nav>
