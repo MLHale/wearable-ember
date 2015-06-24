@@ -2,6 +2,8 @@
 
 This is a demonstration app for integrating an ember-based-cli application with Apache Cordova, and Metawear.
 
+* Update 6/1/15: Additional libraries are in the works for interfacing directly with the metawear API to make all other features available to cordova/ember. 
+
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
